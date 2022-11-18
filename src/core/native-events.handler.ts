@@ -1,12 +1,14 @@
-import { errorHandler } from './error.handler'
 import { exitHandler } from './exit.handler'
 import Logger from './logger'
 import { UnhandledRejectionException } from '../exceptions/unhandled-rejection.exception'
+import { ErrorHandler } from './error.handler'
 
 class NativeEventsHandler {
+  constructor(private readonly errorHandler: ErrorHandler) {}
+
   public handle(): void {
     process.on('uncaughtException', (error) => {
-      errorHandler.handleError(error)
+      this.errorHandler.handleError(error)
     })
 
     process.on('unhandledRejection', (reason: Error | any) => {
@@ -27,4 +29,4 @@ class NativeEventsHandler {
   }
 }
 
-export const nativeEventHandler = new NativeEventsHandler()
+export const nativeEventHandler = new NativeEventsHandler(new ErrorHandler())

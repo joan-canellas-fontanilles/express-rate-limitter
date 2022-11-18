@@ -4,6 +4,7 @@ import Routes from './routes/routes'
 import { AppConfig } from './config/app.config'
 import { EnvironmentConfig } from './config/environment.config'
 import { ErrorHandler } from './core/error.handler'
+import { RequestIpMiddleware } from './middlewares/request-ip.middleware'
 
 export default class App {
   public application: Application
@@ -14,6 +15,7 @@ export default class App {
 
     this.loadEnvironment()
     this.loadConfiguration()
+    this.mountMiddlewares()
     this.mountRoutes()
     this.loadErrorHandlers()
   }
@@ -28,8 +30,13 @@ export default class App {
     this.application = config.init(this.application)
   }
 
+  private mountMiddlewares(): void {
+    const requestIpMiddleware = new RequestIpMiddleware()
+    this.application = requestIpMiddleware.mount(this.application)
+  }
+
   private mountRoutes(): void {
-    this.application = Routes.mountApi(this.application)
+    this.application = Routes.mount(this.application)
   }
 
   private loadErrorHandlers(): void {

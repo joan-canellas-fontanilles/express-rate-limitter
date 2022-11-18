@@ -13,6 +13,7 @@ type EnvironmentValues = Readonly<
     IS_CORS_ENABLED: boolean
     REDIS_HTTP_PORT: number
     URL: string
+    JWT: string
   } & CleanedEnvAccessors
 >
 
@@ -25,9 +26,10 @@ export class EnvironmentConfig implements IEnvironmentConfig {
   public readonly redisHttpPort: number
   public readonly redisHttpHost: string
   public readonly logLevel: string
+  public readonly jwt: string
 
   constructor() {
-    dotenv.config({ path: path.join(__dirname, '../.env') })
+    dotenv.config({ path: path.join(__dirname, '../../.env') })
     const config = this.getEnvironmentConfig()
 
     this.url = config.URL.replace('{port}', String(config.PORT))
@@ -38,6 +40,7 @@ export class EnvironmentConfig implements IEnvironmentConfig {
     this.redisHttpPort = config.REDIS_HTTP_PORT
     this.redisHttpHost = config.REDIS_HTTP_HOST
     this.logLevel = config.LOG_LEVEL
+    this.jwt = config.JWT
   }
 
   private getEnvironmentConfig(): EnvironmentValues {
@@ -50,6 +53,7 @@ export class EnvironmentConfig implements IEnvironmentConfig {
       REDIS_HTTP_HOST: host({ default: '127.0.0.1' }),
       LOG_DIR: str({ default: 'logs' }),
       LOG_LEVEL: str({ default: 'info' }),
+      JWT: str({}),
     })
   }
 }

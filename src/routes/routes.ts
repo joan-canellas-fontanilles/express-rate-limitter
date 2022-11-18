@@ -7,7 +7,7 @@ import { IEnvironmentConfig } from '../config/config.interface'
 import { NotFoundHttpException } from '../exceptions/not-found-http.exception'
 
 class Routes {
-  public mountApi(express: Application): Application {
+  public mount(express: Application): Application {
     const environment: IEnvironmentConfig = express.locals.env
     const apiPrefix = environment.apiPrefix
     Logger.info('Routes :: Mounting API Routes...')
