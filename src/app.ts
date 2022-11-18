@@ -1,9 +1,10 @@
-import express, { Request, Response } from 'express'
+import express, { Application } from 'express'
 import { EnvironmentConfig } from './config'
 import Logger from './core/logger'
+import Routes from './routes/routes'
 
 export default class App {
-  public application: express.Application
+  public application: Application
   public config = new EnvironmentConfig()
 
   constructor() {
@@ -19,8 +20,6 @@ export default class App {
   }
 
   private mountRoutes(): void {
-    this.application.get('/', (req: Request, res: Response) => {
-      res.send('Express + TypeScript Server')
-    })
+    this.application = Routes.mountApi(this.application)
   }
 }
