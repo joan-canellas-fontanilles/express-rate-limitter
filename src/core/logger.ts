@@ -5,7 +5,7 @@ import {
   MultiStreamRes,
   DestinationStream,
 } from 'pino'
-import { EnvironmentConfig } from '../config'
+import { EnvironmentConfig } from '../config/environment.config'
 
 class CustomLogger {
   private readonly logger: Logger
