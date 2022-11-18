@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import { EnvironmentConfig } from './config'
+import Logger from './core/logger'
 
 export default class App {
   public application: express.Application
@@ -13,6 +14,7 @@ export default class App {
   }
 
   private loadEnvironment(): void {
+    Logger.info('Application :: Loading environment variables...')
     this.application.locals.env = this.config
   }
 

@@ -33,7 +33,7 @@ export class EnvironmentConfig implements IConfig {
     this.url = config.URL.replace('{port}', String(config.PORT))
     this.port = config.PORT
     this.apiPrefix = config.API_PREFIX
-    this.logDir = path.join(__dirname, '../..', config.LOG_DIR, 'log.log')
+    this.logDir = path.join(__dirname, '..', config.LOG_DIR, 'log.log')
     this.isCORSEnabled = config.IS_CORS_ENABLED
     this.redisHttpPort = config.REDIS_HTTP_PORT
     this.redisHttpHost = config.REDIS_HTTP_HOST

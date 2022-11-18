@@ -1,17 +1,23 @@
 import App from './app'
 import { Server } from 'http'
+import Logger from './core/logger'
 
 class ExpressServer {
-  public app = new App()
+  public app: App
   public server?: Server
+
+  constructor() {
+    Logger.info('Server :: Booting')
+    this.app = new App()
+  }
 
   public init(): void {
     const port = this.app.config.port
     const url = this.app.config.url
 
     this.server = this.app.application
-      .listen(port, () => console.log(`Server :: Running @ '${url}'`))
-      .on('error', (error) => console.log('Error: ', error.message))
+      .listen(port, () => Logger.info(`Server :: Running @ '${url}'`))
+      .on('error', (error) => Logger.error('Error: ', error.message))
   }
 
   public async shutdown(): Promise<void> {
