@@ -3,6 +3,7 @@ import Logger from './core/logger'
 import Routes from './routes/routes'
 import { AppConfig } from './config/app.config'
 import { EnvironmentConfig } from './config/environment.config'
+import { errorHandler } from './core/error.handler'
 
 export default class App {
   public application: Application
@@ -14,6 +15,7 @@ export default class App {
     this.loadEnvironment()
     this.loadConfiguration()
     this.mountRoutes()
+    this.loadErrorHandlers()
   }
 
   private loadEnvironment(): void {
@@ -28,5 +30,9 @@ export default class App {
 
   private mountRoutes(): void {
     this.application = Routes.mountApi(this.application)
+  }
+
+  private loadErrorHandlers(): void {
+    this.application = errorHandler.handle(this.application)
   }
 }
