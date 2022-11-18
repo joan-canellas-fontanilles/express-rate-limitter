@@ -5,7 +5,7 @@ import Logger from './logger'
 import { HttpBaseException, HttpCode } from '../exceptions/http-base.exception'
 import { AppBaseException } from '../exceptions/app-base.exception'
 
-class ErrorHandler {
+export class ErrorHandler {
   public handle(express: Application): Application {
     Logger.info('Application :: Booting - Error handlers')
     express.use(
@@ -51,5 +51,3 @@ class ErrorHandler {
     return false
   }
 }
-
-export const errorHandler = new ErrorHandler()

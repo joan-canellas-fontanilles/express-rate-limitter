@@ -3,7 +3,7 @@ import Logger from './core/logger'
 import Routes from './routes/routes'
 import { AppConfig } from './config/app.config'
 import { EnvironmentConfig } from './config/environment.config'
-import { errorHandler } from './core/error.handler'
+import { ErrorHandler } from './core/error.handler'
 
 export default class App {
   public application: Application
@@ -33,6 +33,7 @@ export default class App {
   }
 
   private loadErrorHandlers(): void {
+    const errorHandler = new ErrorHandler()
     this.application = errorHandler.handle(this.application)
   }
 }

@@ -1,9 +1,10 @@
-import { Application, Router } from 'express'
+import { Application, NextFunction, Request, Response, Router } from 'express'
 
 import Logger from './../core/logger'
 import publicRoutes from './public.routes'
 import privateRoutes from './private.routes'
 import { IEnvironmentConfig } from '../config/config.interface'
+import { NotFoundHttpException } from '../exceptions/not-found-http.exception'
 
 class Routes {
   public mountApi(express: Application): Application {
@@ -16,7 +17,13 @@ class Routes {
     router.use(publicRoutes)
     router.use(privateRoutes)
 
-    return express.use(`/${apiPrefix}`, router)
+    express.use(`/${apiPrefix}`, router)
+
+    express.use('*', (req: Request, res: Response, next: NextFunction) => {
+      next(new NotFoundHttpException(req.method, req.originalUrl))
+    })
+
+    return express
   }
 }
 
