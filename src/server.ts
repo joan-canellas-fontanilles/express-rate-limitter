@@ -1,19 +1,28 @@
-import dotenv from 'dotenv'
 import App from './app'
+import { Server } from 'http'
 
-class Server {
+class ExpressServer {
   public app = new App()
+  public server?: Server
 
   public init(): void {
-    dotenv.config()
-    const port = process.env.PORT ?? '8000'
+    const port = this.app.config.port
+    const url = this.app.config.url
 
-    this.app.application.listen(port, () => {
-      console.log(`[server]: Server is running at http://localhost:${port}`)
-    })
+    this.server = this.app.application
+      .listen(port, () => console.log(`Server :: Running @ '${url}'`))
+      .on('error', (error) => console.log('Error: ', error.message))
   }
 
-  public shutdown(): void {}
+  public async shutdown(): Promise<void> {
+    return await new Promise((resolve, reject) => {
+      if (this.server !== undefined) {
+        this.server.on('close', () => resolve())
+        this.server.close((error) => reject(error))
+      }
+      return resolve()
+    })
+  }
 }
 
-export default new Server()
+export default new ExpressServer()
