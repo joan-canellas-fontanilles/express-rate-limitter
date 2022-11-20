@@ -7,4 +7,5 @@ export interface EnvironmentProperties {
   readonly redisHttpPort: number
   readonly redisHttpHost: string
   readonly logLevel: string
+  readonly jwt: string
 }

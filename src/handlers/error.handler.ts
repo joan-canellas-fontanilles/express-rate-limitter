@@ -3,10 +3,13 @@ import { exitHandler, ExitHandler } from './exit.handler'
 import { NextFunction, Request } from 'express'
 import { HttpBaseException, HttpCode } from '../exceptions/http-base.exception'
 import { AppBaseException } from '../exceptions/app-base.exception'
-import Logger from '../core/logger'
+import { CustomLogger, logger } from '../core/logger'
 
 export class ErrorHandler {
-  constructor(private readonly exitHandler: ExitHandler) {}
+  constructor(
+    private readonly logger: CustomLogger,
+    private readonly exitHandler: ExitHandler
+  ) {}
 
   public handle(
     error: Error,
@@ -18,7 +21,7 @@ export class ErrorHandler {
   }
 
   public handleError(error: Error, response?: Response): void {
-    Logger.error(error)
+    this.logger.error(error)
     if (this.isTrustedError(error) && response !== undefined) {
       this.handleTrustedError(error as HttpBaseException, response)
     } else {
@@ -41,7 +44,7 @@ export class ErrorHandler {
       response.status(HttpCode.INTERNAL_SERVER_ERROR)
       response.json({ description: 'Internal server error' })
     }
-    Logger.error('Application encountered a critical error. Exiting')
+    this.logger.error('Application encountered a critical error. Exiting')
     void this.exitHandler.handleExit(1)
   }
 
@@ -50,4 +53,4 @@ export class ErrorHandler {
   }
 }
 
-export const errorHandler = new ErrorHandler(exitHandler)
+export const errorHandler = new ErrorHandler(logger, exitHandler)

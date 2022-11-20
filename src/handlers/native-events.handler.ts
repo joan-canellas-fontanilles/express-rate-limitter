@@ -1,12 +1,13 @@
 import { ExitHandler, exitHandler } from './exit.handler'
 import { UnhandledRejectionException } from '../exceptions/unhandled-rejection.exception'
 import { errorHandler, ErrorHandler } from './error.handler'
-import Logger from '../core/logger'
+import { CustomLogger, logger } from '../core/logger'
 
 class NativeEventsHandler {
   constructor(
     private readonly errorHandler: ErrorHandler,
-    private readonly exitHandler: ExitHandler
+    private readonly exitHandler: ExitHandler,
+    private readonly logger: CustomLogger
   ) {}
 
   public handle(): void {
@@ -19,14 +20,16 @@ class NativeEventsHandler {
     })
 
     process.on('SIGTERM', () => {
-      Logger.info(
+      this.logger.info(
         `Process ${process.pid} received SIGTERM: Exiting with code 0`
       )
       void this.exitHandler.handleExit(0)
     })
 
     process.on('SIGINT', () => {
-      Logger.info(`Process ${process.pid} received SIGINT: Exiting with code 0`)
+      this.logger.info(
+        `Process ${process.pid} received SIGINT: Exiting with code 0`
+      )
       void this.exitHandler.handleExit(0)
     })
   }
@@ -34,5 +37,6 @@ class NativeEventsHandler {
 
 export const nativeEventHandler = new NativeEventsHandler(
   errorHandler,
-  exitHandler
+  exitHandler,
+  logger
 )

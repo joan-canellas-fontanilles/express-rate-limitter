@@ -1,5 +1,5 @@
 import express from 'express'
-import Logger from './core/logger'
+import { CustomLogger, logger } from './core/logger'
 import { requestIpMiddleware } from './middlewares/request-ip.middleware'
 import bodyParser from 'body-parser'
 import helmet from 'helmet'
@@ -10,12 +10,16 @@ import { publicRouter } from './routes/public.routes'
 import { privateRouter } from './routes/private.routes'
 import { notFoundRouter } from './routes/not-found.router'
 import { errorHandler } from './handlers/error.handler'
+import { EnvironmentProperties } from './interfaces/config.interface'
 
 export class Application {
   public instance: express.Application
 
-  constructor() {
-    Logger.info('Application :: Booting')
+  constructor(
+    private readonly logger: CustomLogger,
+    private readonly environment: EnvironmentProperties
+  ) {
+    this.logger.info('Application :: Booting')
     this.instance = express()
 
     this.loadHttpConfiguration()
@@ -25,7 +29,7 @@ export class Application {
   }
 
   private loadHttpConfiguration(): void {
-    Logger.info("Application :: Booting Config - 'HTTP'")
+    this.logger.info("Application :: Booting Config - 'HTTP'")
 
     this.instance.use(bodyParser.json({}))
     this.instance.use(helmet())
@@ -34,9 +38,9 @@ export class Application {
   }
 
   private getCorsConfig(): CorsOptions {
-    if (environment.isCORSEnabled) {
+    if (this.environment.isCORSEnabled) {
       return {
-        origin: environment.url,
+        origin: this.environment.url,
         optionsSuccessStatus: 200,
       }
     }
@@ -48,18 +52,24 @@ export class Application {
   }
 
   private mountRoutes(): void {
-    Logger.info('Routes :: Mounting API Routes...')
+    this.logger.info('Routes :: Mounting API Routes...')
 
-    this.instance.use(`/${environment.apiPrefix}`, publicRouter.createRouter())
-    this.instance.use(`/${environment.apiPrefix}`, privateRouter.createRouter())
+    this.instance.use(
+      `/${this.environment.apiPrefix}`,
+      publicRouter.createRouter()
+    )
+    this.instance.use(
+      `/${this.environment.apiPrefix}`,
+      privateRouter.createRouter()
+    )
 
     this.instance.use(notFoundRouter.createRouter())
   }
 
   private loadErrorHandlers(): void {
-    Logger.info('Application :: Booting - Error handlers')
+    this.logger.info('Application :: Booting - Error handlers')
     this.instance.use(errorHandler.handle.bind(errorHandler))
   }
 }
 
-export const application = new Application()
+export const application = new Application(logger, environment)

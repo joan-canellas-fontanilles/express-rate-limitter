@@ -5,13 +5,13 @@ import {
   MultiStreamRes,
   DestinationStream,
 } from 'pino'
-import { Environment } from '../config/environment'
+import { environment } from '../config/environment'
+import { EnvironmentProperties } from '../interfaces/config.interface'
 
-class CustomLogger {
+export class CustomLogger {
   private readonly logger: Logger
-  private readonly environment = new Environment()
 
-  constructor() {
+  constructor(private readonly environment: EnvironmentProperties) {
     this.logger = pino(this.getOptions(), this.createMultiStream())
   }
 
@@ -53,4 +53,4 @@ class CustomLogger {
   }
 }
 
-export default new CustomLogger()
+export const logger = new CustomLogger(environment)
