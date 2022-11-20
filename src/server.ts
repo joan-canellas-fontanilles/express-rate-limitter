@@ -1,21 +1,16 @@
-import App from './app'
 import { Server } from 'http'
 import Logger from './core/logger'
+import { Application } from 'express'
+import { environment } from './config/environment'
 
 class ExpressServer {
-  public app: App
   public server?: Server
 
-  constructor() {
-    Logger.info('Server :: Booting')
-    this.app = new App()
-  }
+  public init(application: Application): void {
+    const port = environment.port
+    const url = environment.url
 
-  public init(): void {
-    const port = this.app.config.port
-    const url = this.app.config.url
-
-    this.server = this.app.application
+    this.server = application
       .listen(port, () => Logger.info(`Server :: Running @ '${url}'`))
       .on('error', (error) => Logger.error('Error: ', error.message))
   }

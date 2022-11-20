@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as dotenv from 'dotenv'
 import { bool, cleanEnv, num, str, host, CleanedEnvAccessors } from 'envalid'
-import { IEnvironmentConfig } from './config.interface'
+import { EnvironmentProperties } from '../interfaces/config.interface'
 
 type EnvironmentValues = Readonly<
   {
@@ -17,7 +17,7 @@ type EnvironmentValues = Readonly<
   } & CleanedEnvAccessors
 >
 
-export class EnvironmentConfig implements IEnvironmentConfig {
+export class Environment implements EnvironmentProperties {
   public readonly url: string
   public readonly port: number
   public readonly apiPrefix: string
@@ -57,3 +57,5 @@ export class EnvironmentConfig implements IEnvironmentConfig {
     })
   }
 }
+
+export const environment = new Environment()

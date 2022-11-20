@@ -3,12 +3,11 @@ import { Application, NextFunction, Request, Response, Router } from 'express'
 import Logger from './../core/logger'
 import publicRoutes from './public.routes'
 import privateRoutes from './private.routes'
-import { IEnvironmentConfig } from '../config/config.interface'
 import { NotFoundHttpException } from '../exceptions/not-found-http.exception'
+import { environment } from '../config/environment'
 
 class Routes {
   public mount(express: Application): Application {
-    const environment: IEnvironmentConfig = express.locals.env
     const apiPrefix = environment.apiPrefix
     Logger.info('Routes :: Mounting API Routes...')
 

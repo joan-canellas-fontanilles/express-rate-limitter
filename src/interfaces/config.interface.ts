@@ -1,4 +1,4 @@
-export interface IEnvironmentConfig {
+export interface EnvironmentProperties {
   readonly url: string
   readonly port: number
   readonly apiPrefix: string

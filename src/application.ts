@@ -1,46 +1,41 @@
-import express, { Application } from 'express'
+import express from 'express'
 import Logger from './core/logger'
 import Routes from './routes/routes'
 import { AppConfig } from './config/app.config'
-import { EnvironmentConfig } from './config/environment.config'
 import { ErrorHandler } from './core/error.handler'
 import { RequestIpMiddleware } from './middlewares/request-ip.middleware'
 
-export default class App {
-  public application: Application
-  public config = new EnvironmentConfig()
+export class Application {
+  public instance: express.Application
 
   constructor() {
-    this.application = express()
+    Logger.info('Application :: Booting')
+    this.instance = express()
 
-    this.loadEnvironment()
     this.loadConfiguration()
     this.mountMiddlewares()
     this.mountRoutes()
     this.loadErrorHandlers()
   }
 
-  private loadEnvironment(): void {
-    Logger.info('Application :: Loading - Environment variables...')
-    this.application.locals.env = this.config
-  }
-
   private loadConfiguration(): void {
     const config = new AppConfig()
-    this.application = config.init(this.application)
+    this.instance = config.init(this.instance)
   }
 
   private mountMiddlewares(): void {
     const requestIpMiddleware = new RequestIpMiddleware()
-    this.application = requestIpMiddleware.mount(this.application)
+    this.instance = requestIpMiddleware.mount(this.instance)
   }
 
   private mountRoutes(): void {
-    this.application = Routes.mount(this.application)
+    this.instance = Routes.mount(this.instance)
   }
 
   private loadErrorHandlers(): void {
     const errorHandler = new ErrorHandler()
-    this.application = errorHandler.handle(this.application)
+    this.instance = errorHandler.handle(this.instance)
   }
 }
+
+export const application = new Application()
