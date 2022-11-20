@@ -4,7 +4,7 @@ import { Application } from 'express'
 import { environment } from './config/environment'
 
 class ExpressServer {
-  public server?: Server
+  private server?: Server
 
   public init(application: Application): void {
     const port = environment.port
@@ -26,4 +26,4 @@ class ExpressServer {
   }
 }
 
-export default new ExpressServer()
+export const server = new ExpressServer()

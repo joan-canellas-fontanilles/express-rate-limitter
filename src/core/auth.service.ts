@@ -5,3 +5,5 @@ export class AuthService {
     return token === environment.jwt
   }
 }
+
+export const authService = new AuthService()

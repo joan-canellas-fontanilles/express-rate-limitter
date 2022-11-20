@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { UnauthorizedHttpException } from '../exceptions/unauthorized-http.exception'
-import { AuthService } from '../core/auth.service'
+import { authService, AuthService } from '../core/auth.service'
 import { ForbiddenHttpException } from '../exceptions/forbidden-http.exception'
 import { Middleware } from '../interfaces/middleware.interface'
 
@@ -29,5 +29,5 @@ export class AuthenticatedGuardMiddleware implements Middleware {
 }
 
 export const authenticatedGuardMiddleware = new AuthenticatedGuardMiddleware(
-  new AuthService()
+  authService
 )

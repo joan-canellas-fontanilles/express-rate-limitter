@@ -1,7 +1,7 @@
-import Logger from './logger'
-import Server from '../server'
+import { server } from '../server'
+import Logger from '../core/logger'
 
-class ExitHandler {
+export class ExitHandler {
   public async handleExit(code: number, timeout = 5000): Promise<void> {
     try {
       Logger.warn(`Attempting a graceful shutdown with code ${code}`)
@@ -11,7 +11,7 @@ class ExitHandler {
         process.exit(code)
       }, timeout).unref()
 
-      await Server.shutdown()
+      await server.shutdown()
 
       Logger.warn(`Exiting gracefully with code ${code}`)
       process.exit(code)

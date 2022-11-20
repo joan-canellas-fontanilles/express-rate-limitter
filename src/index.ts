@@ -1,6 +1,7 @@
-import Server from './server'
-import { nativeEventHandler } from './core/native-events.handler'
 import { application } from './application'
+import { nativeEventHandler } from './handlers/native-events.handler'
+import { server } from './server'
 
 nativeEventHandler.handle()
-Server.init(application.instance)
+
+server.init(application.instance)

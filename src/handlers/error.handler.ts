@@ -1,19 +1,20 @@
 import { Response } from 'express-serve-static-core'
-import { exitHandler } from './exit.handler'
-import { Application, NextFunction, Request } from 'express'
-import Logger from './logger'
+import { exitHandler, ExitHandler } from './exit.handler'
+import { NextFunction, Request } from 'express'
 import { HttpBaseException, HttpCode } from '../exceptions/http-base.exception'
 import { AppBaseException } from '../exceptions/app-base.exception'
+import Logger from '../core/logger'
 
 export class ErrorHandler {
-  public handle(express: Application): Application {
-    Logger.info('Application :: Booting - Error handlers')
-    express.use(
-      (err: Error, _req: Request, res: Response, _next: NextFunction) => {
-        this.handleError(err, res)
-      }
-    )
-    return express
+  constructor(private readonly exitHandler: ExitHandler) {}
+
+  public handle(
+    error: Error,
+    _request: Request,
+    response: Response,
+    _next: NextFunction
+  ): void {
+    this.handleError(error, response)
   }
 
   public handleError(error: Error, response?: Response): void {
@@ -38,16 +39,15 @@ export class ErrorHandler {
   ): void {
     if (response !== undefined) {
       response.status(HttpCode.INTERNAL_SERVER_ERROR)
-      response.json({ message: 'Internal server error' })
+      response.json({ description: 'Internal server error' })
     }
     Logger.error('Application encountered a critical error. Exiting')
-    void exitHandler.handleExit(1)
+    void this.exitHandler.handleExit(1)
   }
 
   public isTrustedError(error: Error): boolean {
-    if (error instanceof HttpBaseException) {
-      return error.isOperational
-    }
-    return false
+    return error instanceof HttpBaseException && error.isOperational
   }
 }
+
+export const errorHandler = new ErrorHandler(exitHandler)

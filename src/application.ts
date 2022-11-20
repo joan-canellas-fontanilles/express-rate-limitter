@@ -1,6 +1,5 @@
 import express from 'express'
 import Logger from './core/logger'
-import { ErrorHandler } from './core/error.handler'
 import { requestIpMiddleware } from './middlewares/request-ip.middleware'
 import bodyParser from 'body-parser'
 import helmet from 'helmet'
@@ -10,6 +9,7 @@ import { environment } from './config/environment'
 import { publicRouter } from './routes/public.routes'
 import { privateRouter } from './routes/private.routes'
 import { notFoundRouter } from './routes/not-found.router'
+import { errorHandler } from './handlers/error.handler'
 
 export class Application {
   public instance: express.Application
@@ -57,8 +57,8 @@ export class Application {
   }
 
   private loadErrorHandlers(): void {
-    const errorHandler = new ErrorHandler()
-    this.instance = errorHandler.handle(this.instance)
+    Logger.info('Application :: Booting - Error handlers')
+    this.instance.use(errorHandler.handle.bind(errorHandler))
   }
 }
 
