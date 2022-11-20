@@ -1,15 +1,14 @@
 import { Router } from 'express'
 import { PrivateController } from '../controller/private.controller'
-import { AuthenticatedGuardMiddleware } from '../middlewares/authenticated-guard.middleware'
-import { AuthService } from '../core/auth.service'
+import { authenticatedGuardMiddleware } from '../middlewares/authenticated-guard.middleware'
 
 const router = Router()
 const controller = new PrivateController()
+const authentication = authenticatedGuardMiddleware.handle.bind(
+  authenticatedGuardMiddleware
+)
 
-const authentication = new AuthenticatedGuardMiddleware(new AuthService())
-
-router.use('/private', authentication.guard.bind(authentication))
-
+router.use('/private', authentication)
 router.get('/private', controller.sendMessage)
 
 export default router
