@@ -11,3 +11,5 @@ export class PublicController {
     })
   }
 }
+
+export const publicController = new PublicController()

@@ -1,9 +1,22 @@
-import { Router } from 'express'
-import { PublicController } from '../controller/public.controller'
+import express from 'express'
+import {
+  publicController,
+  PublicController,
+} from '../controller/public.controller'
+import { Router } from '../interfaces/router.interface'
 
-const router = Router()
-const controller = new PublicController()
+class PublicRouter implements Router {
+  private readonly route = '/public'
 
-router.get('/public', controller.sendMessage)
+  constructor(private readonly controller: PublicController) {}
 
-export default router
+  public createRouter(): express.Router {
+    const router = express.Router()
+
+    router.get(this.route, this.controller.sendMessage.bind(this.controller))
+
+    return router
+  }
+}
+
+export const publicRouter = new PublicRouter(publicController)

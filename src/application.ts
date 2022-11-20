@@ -1,6 +1,5 @@
 import express from 'express'
 import Logger from './core/logger'
-import Routes from './routes/routes'
 import { ErrorHandler } from './core/error.handler'
 import { requestIpMiddleware } from './middlewares/request-ip.middleware'
 import bodyParser from 'body-parser'
@@ -8,6 +7,9 @@ import helmet from 'helmet'
 import cors, { CorsOptions } from 'cors'
 import compression from 'compression'
 import { environment } from './config/environment'
+import { publicRouter } from './routes/public.routes'
+import { privateRouter } from './routes/private.routes'
+import { notFoundRouter } from './routes/not-found.router'
 
 export class Application {
   public instance: express.Application
@@ -46,7 +48,12 @@ export class Application {
   }
 
   private mountRoutes(): void {
-    this.instance = Routes.mount(this.instance)
+    Logger.info('Routes :: Mounting API Routes...')
+
+    this.instance.use(`/${environment.apiPrefix}`, publicRouter.createRouter())
+    this.instance.use(`/${environment.apiPrefix}`, privateRouter.createRouter())
+
+    this.instance.use(notFoundRouter.createRouter())
   }
 
   private loadErrorHandlers(): void {
