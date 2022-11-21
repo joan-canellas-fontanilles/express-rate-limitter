@@ -1,5 +1,5 @@
 import { environment } from '../config/environment'
-import { EnvironmentProperties } from '../interfaces/config.interface'
+import { EnvironmentProperties } from '../interfaces/environment-properties.interface'
 
 export class AuthService {
   constructor(private readonly environment: EnvironmentProperties) {}

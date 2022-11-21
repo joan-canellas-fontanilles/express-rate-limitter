@@ -7,6 +7,7 @@ export enum HttpCode {
   UNAUTHORIZED = 401,
   FORBIDDEN = 403,
   NOT_FOUND = 404,
+  TOO_MANY_REQUEST = 429,
   INTERNAL_SERVER_ERROR = 500,
 }
 

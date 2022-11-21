@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as dotenv from 'dotenv'
 import { bool, cleanEnv, num, str, host, CleanedEnvAccessors } from 'envalid'
-import { EnvironmentProperties } from '../interfaces/config.interface'
+import { EnvironmentProperties } from '../interfaces/environment-properties.interface'
 
 type EnvironmentValues = Readonly<
   {
@@ -35,7 +35,7 @@ export class Environment implements EnvironmentProperties {
     this.url = config.URL.replace('{port}', String(config.PORT))
     this.port = config.PORT
     this.apiPrefix = config.API_PREFIX
-    this.logDir = path.join(__dirname, '..', config.LOG_DIR, 'log.log')
+    this.logDir = path.join(__dirname, '../..', config.LOG_DIR, 'log.log')
     this.isCORSEnabled = config.IS_CORS_ENABLED
     this.redisHttpPort = config.REDIS_HTTP_PORT
     this.redisHttpHost = config.REDIS_HTTP_HOST

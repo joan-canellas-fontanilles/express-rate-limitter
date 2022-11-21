@@ -3,5 +3,6 @@ import { nativeEventHandler } from './handlers/native-events.handler'
 import { server } from './server'
 
 nativeEventHandler.handle()
-
-server.init(application.instance)
+void application.initDB().then(() => {
+  server.init(application.instance)
+})

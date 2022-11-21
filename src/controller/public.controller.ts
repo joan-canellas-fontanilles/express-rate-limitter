@@ -1,5 +1,5 @@
 import { Request, Response } from 'express-serve-static-core'
-import { GenericResponse } from '../interfaces/generic.response'
+import { GenericResponse } from '../interfaces/generic-response.interface'
 
 export class PublicController {
   public sendMessage(

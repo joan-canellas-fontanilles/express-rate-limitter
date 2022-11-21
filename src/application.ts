@@ -10,7 +10,8 @@ import { publicRouter } from './routes/public.routes'
 import { privateRouter } from './routes/private.routes'
 import { notFoundRouter } from './routes/not-found.router'
 import { errorHandler } from './handlers/error.handler'
-import { EnvironmentProperties } from './interfaces/config.interface'
+import { EnvironmentProperties } from './interfaces/environment-properties.interface'
+import { redisRequestRepository } from './store/redis-request.store'
 
 export class Application {
   public instance: express.Application
@@ -69,6 +70,11 @@ export class Application {
   private loadErrorHandlers(): void {
     this.logger.info('Application :: Booting - Error handlers')
     this.instance.use(errorHandler.handle.bind(errorHandler))
+  }
+
+  public async initDB(): Promise<void> {
+    this.logger.info('Application :: Init - Redis DB')
+    await redisRequestRepository.init()
   }
 }
 

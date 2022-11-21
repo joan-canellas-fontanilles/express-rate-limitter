@@ -21,7 +21,6 @@ export class ErrorHandler {
   }
 
   public handleError(error: Error, response?: Response): void {
-    this.logger.error(error)
     if (this.isTrustedError(error) && response !== undefined) {
       this.handleTrustedError(error as HttpBaseException, response)
     } else {
@@ -33,13 +32,15 @@ export class ErrorHandler {
     error: HttpBaseException,
     response: Response
   ): void {
+    this.logger.info(error)
     response.status(error.statusCode).json({ description: error.description })
   }
 
   public handleUntrustedError(
-    _error: Error | AppBaseException,
+    error: Error | AppBaseException,
     response?: Response
   ): void {
+    this.logger.error(error)
     if (response !== undefined) {
       response.status(HttpCode.INTERNAL_SERVER_ERROR)
       response.json({ description: 'Internal server error' })
