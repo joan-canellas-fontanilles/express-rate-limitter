@@ -1,0 +1,11 @@
+config:
+  target: "http://localhost:{{ $processEnvironment.PORT }}"
+  phases:
+    - duration: 10
+      rampTo: 300
+scenarios:
+  - flow:
+      - get:
+          url: "/api/private"
+          headers:
+            authorization: "Bearer {{ $processEnvironment.TOKEN }}"

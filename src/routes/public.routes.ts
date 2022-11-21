@@ -29,7 +29,7 @@ class PublicRouter implements Router {
       }
     )
 
-    router.use(rateLimitMiddleware.handle.bind(rateLimitMiddleware))
+    router.use(this.route, rateLimitMiddleware.handle.bind(rateLimitMiddleware))
 
     router.get(this.route, this.controller.sendMessage.bind(this.controller))
 
