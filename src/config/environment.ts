@@ -5,15 +5,17 @@ import { EnvironmentProperties } from '../interfaces/environment-properties.inte
 
 type EnvironmentValues = Readonly<
   {
+    URL: string
     PORT: number
-    REDIS_HTTP_HOST: string
     API_PREFIX: string
     LOG_DIR: string
     LOG_LEVEL: string
     IS_CORS_ENABLED: boolean
+    REDIS_HTTP_HOST: string
     REDIS_HTTP_PORT: number
-    URL: string
     JWT: string
+    IP_RATE_LIMIT: number
+    TOKEN_RATE_LIMIT: number
   } & CleanedEnvAccessors
 >
 
@@ -27,6 +29,8 @@ export class Environment implements EnvironmentProperties {
   public readonly redisHttpHost: string
   public readonly logLevel: string
   public readonly jwt: string
+  public readonly ipRateLimit: number
+  public readonly tokenRateLimit: number
 
   constructor() {
     dotenv.config({ path: path.join(__dirname, '../../.env') })
@@ -41,6 +45,8 @@ export class Environment implements EnvironmentProperties {
     this.redisHttpHost = config.REDIS_HTTP_HOST
     this.logLevel = config.LOG_LEVEL
     this.jwt = config.JWT
+    this.ipRateLimit = config.IP_RATE_LIMIT
+    this.tokenRateLimit = config.TOKEN_RATE_LIMIT
   }
 
   private getEnvironmentConfig(): EnvironmentValues {
@@ -54,6 +60,8 @@ export class Environment implements EnvironmentProperties {
       LOG_DIR: str({ default: 'logs' }),
       LOG_LEVEL: str({ default: 'info' }),
       JWT: str({}),
+      IP_RATE_LIMIT: num({ default: 100 }),
+      TOKEN_RATE_LIMIT: num({ default: 200 }),
     })
   }
 }

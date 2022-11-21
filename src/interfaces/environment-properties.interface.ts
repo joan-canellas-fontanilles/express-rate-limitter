@@ -8,4 +8,6 @@ export interface EnvironmentProperties {
   readonly redisHttpHost: string
   readonly logLevel: string
   readonly jwt: string
+  readonly ipRateLimit: number
+  readonly tokenRateLimit: number
 }
