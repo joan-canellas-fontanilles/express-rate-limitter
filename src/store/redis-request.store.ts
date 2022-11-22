@@ -63,4 +63,4 @@ export class RedisRequestStore implements RequestStore {
   }
 }
 
-export const redisRequestRepository = new RedisRequestStore(environment)
+export const redisRequestStore = new RedisRequestStore(environment)

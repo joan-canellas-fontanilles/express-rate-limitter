@@ -24,7 +24,6 @@ describe('rate limiter middleware', () => {
 
     middleware = new RateLimiterMiddleware(mockRequestStore, {
       rateLimit: 10,
-      requestWeight: 1,
       identifierGenerator: (request, response) => response.locals.ip,
     })
   })

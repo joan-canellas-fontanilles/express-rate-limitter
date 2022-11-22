@@ -5,7 +5,7 @@ import {
 } from '../controller/public.controller'
 import { Router } from '../interfaces/router.interface'
 import { RateLimiterMiddleware } from '../middlewares/rate-limiter.middleware'
-import { memoryRequestRepository } from '../store/redis-memory-request.store'
+import { memoryRequestStore } from '../store/redis-memory-request.store'
 import { EnvironmentProperties } from '../interfaces/environment-properties.interface'
 import { environment } from '../config/environment'
 
@@ -20,14 +20,10 @@ class PublicRouter implements Router {
   public createRouter(): express.Router {
     const router = express.Router()
 
-    const rateLimitMiddleware = new RateLimiterMiddleware(
-      memoryRequestRepository,
-      {
-        rateLimit: this.environment.ipRateLimit,
-        requestWeight: 1,
-        identifierGenerator: (_, res) => res.locals.ip,
-      }
-    )
+    const rateLimitMiddleware = new RateLimiterMiddleware(memoryRequestStore, {
+      rateLimit: this.environment.ipRateLimit,
+      identifierGenerator: (_, res) => res.locals.ip,
+    })
 
     router.use(this.route, rateLimitMiddleware.handle.bind(rateLimitMiddleware))
 

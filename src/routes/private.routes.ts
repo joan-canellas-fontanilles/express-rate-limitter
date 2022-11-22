@@ -9,7 +9,7 @@ import {
 import { Router } from '../interfaces/router.interface'
 import express from 'express'
 import { RateLimiterMiddleware } from '../middlewares/rate-limiter.middleware'
-import { memoryRequestRepository } from '../store/redis-memory-request.store'
+import { memoryRequestStore } from '../store/redis-memory-request.store'
 import { EnvironmentProperties } from '../interfaces/environment-properties.interface'
 import { environment } from '../config/environment'
 
@@ -27,14 +27,10 @@ class PrivateRouter implements Router {
 
     router.use(this.route, this.authentication.handle.bind(this.authentication))
 
-    const rateLimitMiddleware = new RateLimiterMiddleware(
-      memoryRequestRepository,
-      {
-        rateLimit: this.environment.tokenRateLimit,
-        requestWeight: 1,
-        identifierGenerator: (_, res) => res.locals.user,
-      }
-    )
+    const rateLimitMiddleware = new RateLimiterMiddleware(memoryRequestStore, {
+      rateLimit: this.environment.tokenRateLimit,
+      identifierGenerator: (_, res) => res.locals.user,
+    })
 
     router.get(this.route, rateLimitMiddleware.handle.bind(rateLimitMiddleware))
     router.get(this.route, this.controller.sendMessage.bind(this.controller))

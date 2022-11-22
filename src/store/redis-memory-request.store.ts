@@ -1,4 +1,4 @@
-import { redisRequestRepository } from './redis-request.store'
+import { redisRequestStore } from './redis-request.store'
 import { RequestStore } from '../interfaces/request-store.interface'
 import NodeCache from 'node-cache'
 
@@ -47,6 +47,4 @@ export class RedisMemoryRequestStore implements RequestStore {
   }
 }
 
-export const memoryRequestRepository = new RedisMemoryRequestStore(
-  redisRequestRepository
-)
+export const memoryRequestStore = new RedisMemoryRequestStore(redisRequestStore)

@@ -6,14 +6,14 @@ jest.mock('../src/core/logger', () => ({
   },
 }))
 
-const redisRequestRepository = {
+const redisRequestStore = {
   init: jest.fn().mockImplementation(() => Promise.resolve()),
   remaining: jest.fn(),
   getFirstRequestTimestamp: jest.fn(),
 }
 
 jest.mock('../src/store/redis-request.store.ts', () => ({
-  redisRequestRepository,
+  redisRequestStore,
 }))
 
 import request from 'supertest'
@@ -35,7 +35,7 @@ describe('Testing public route', () => {
   })
 
   it('Should return a 429 message if request limit reached', async () => {
-    jest.spyOn(redisRequestRepository, 'remaining').mockResolvedValue(0)
+    jest.spyOn(redisRequestStore, 'remaining').mockResolvedValue(0)
     const response = await request(app.instance).get(route)
     expect(response.status).toEqual(429)
     expect(response.body.description).toMatch(

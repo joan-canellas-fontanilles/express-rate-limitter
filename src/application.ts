@@ -11,7 +11,7 @@ import { privateRouter } from './routes/private.routes'
 import { notFoundRouter } from './routes/not-found.router'
 import { errorHandler } from './handlers/error.handler'
 import { EnvironmentProperties } from './interfaces/environment-properties.interface'
-import { redisRequestRepository } from './store/redis-request.store'
+import { redisRequestStore } from './store/redis-request.store'
 import { ApplicationLogger } from './interfaces/application-logger.interface'
 
 export class Application {
@@ -75,7 +75,7 @@ export class Application {
 
   public async initDB(): Promise<void> {
     this.logger.info('Application :: Init - Redis DB')
-    await redisRequestRepository.init()
+    await redisRequestStore.init()
   }
 }
 
