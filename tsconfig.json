@@ -12,5 +12,9 @@
     "noUnusedLocals": true,                              /* Enable error reporting when local variables aren't read. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": [ "src/**/*" ]
+  "include": [ "src/**/*" ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
