@@ -7,8 +7,8 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "test:unit": "jest",
-    "test:unit:coverage": "jest --coverage",
+    "test": "jest ",
+    "test:coverage": "jest --coverage",
     "test:performance:private": "dotenv -- artillery run artillery/private.yaml",
     "test:performance:public": "dotenv -- artillery run artillery/public.yaml",
     "docker-compose:up": "docker compose -f docker/docker-compose.yaml --env-file .env up --detach",
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/joan-canellas-fontanilles/express-rate-limitter#readme",
   "dependencies": {
+    "@types/supertest": "^2.0.12",
     "compression": "^1.7.4",
     "concurrently": "^7.5.0",
     "cors": "^2.8.5",

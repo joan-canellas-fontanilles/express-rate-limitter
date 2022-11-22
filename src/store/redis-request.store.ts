@@ -19,7 +19,7 @@ export class RedisRequestStore implements RequestStore {
     })
   }
 
-  async init(): Promise<void> {
+  public async init(): Promise<void> {
     await this.client.connect()
   }
 
