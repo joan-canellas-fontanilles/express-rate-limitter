@@ -1,13 +1,14 @@
 import { ExitHandler, exitHandler } from './exit.handler'
 import { UnhandledRejectionException } from '../exceptions/unhandled-rejection.exception'
 import { errorHandler, ErrorHandler } from './error.handler'
-import { CustomLogger, logger } from '../core/logger'
+import { logger } from '../core/logger'
+import { ApplicationLogger } from '../interfaces/application-logger.interface'
 
-class NativeEventsHandler {
+export class NativeEventsHandler {
   constructor(
     private readonly errorHandler: ErrorHandler,
     private readonly exitHandler: ExitHandler,
-    private readonly logger: CustomLogger
+    private readonly logger: ApplicationLogger
   ) {}
 
   public handle(): void {

@@ -1,12 +1,13 @@
 import { Server } from 'http'
-import { CustomLogger, logger } from './core/logger'
+import { logger } from './core/logger'
 import { Application } from 'express'
 import { environment } from './config/environment'
+import { ApplicationLogger } from './interfaces/application-logger.interface'
 
-class ExpressServer {
+export class ExpressServer {
   private server?: Server
 
-  constructor(private readonly logger: CustomLogger) {}
+  constructor(private readonly logger: ApplicationLogger) {}
 
   public init(application: Application): void {
     const port = environment.port

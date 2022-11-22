@@ -3,11 +3,12 @@ import { exitHandler, ExitHandler } from './exit.handler'
 import { NextFunction, Request } from 'express'
 import { HttpBaseException, HttpCode } from '../exceptions/http-base.exception'
 import { AppBaseException } from '../exceptions/app-base.exception'
-import { CustomLogger, logger } from '../core/logger'
+import { logger } from '../core/logger'
+import { ApplicationLogger } from '../interfaces/application-logger.interface'
 
 export class ErrorHandler {
   constructor(
-    private readonly logger: CustomLogger,
+    private readonly logger: ApplicationLogger,
     private readonly exitHandler: ExitHandler
   ) {}
 
@@ -36,7 +37,7 @@ export class ErrorHandler {
     response.status(error.statusCode).json({ description: error.description })
   }
 
-  public handleUntrustedError(
+  private handleUntrustedError(
     error: Error | AppBaseException,
     response?: Response
   ): void {
@@ -49,7 +50,7 @@ export class ErrorHandler {
     void this.exitHandler.handleExit(1)
   }
 
-  public isTrustedError(error: Error): boolean {
+  private isTrustedError(error: Error): boolean {
     return error instanceof HttpBaseException && error.isOperational
   }
 }

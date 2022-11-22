@@ -1,8 +1,9 @@
 import { server } from '../server'
-import { CustomLogger, logger } from '../core/logger'
+import { logger } from '../core/logger'
+import { ApplicationLogger } from '../interfaces/application-logger.interface'
 
 export class ExitHandler {
-  constructor(private readonly logger: CustomLogger) {}
+  constructor(private readonly logger: ApplicationLogger) {}
 
   public async handleExit(code: number, timeout = 5000): Promise<void> {
     try {

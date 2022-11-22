@@ -1,5 +1,5 @@
 import express from 'express'
-import { CustomLogger, logger } from './core/logger'
+import { logger } from './core/logger'
 import { requestIpMiddleware } from './middlewares/request-ip.middleware'
 import bodyParser from 'body-parser'
 import helmet from 'helmet'
@@ -12,12 +12,13 @@ import { notFoundRouter } from './routes/not-found.router'
 import { errorHandler } from './handlers/error.handler'
 import { EnvironmentProperties } from './interfaces/environment-properties.interface'
 import { redisRequestRepository } from './store/redis-request.store'
+import { ApplicationLogger } from './interfaces/application-logger.interface'
 
 export class Application {
   public instance: express.Application
 
   constructor(
-    private readonly logger: CustomLogger,
+    private readonly logger: ApplicationLogger,
     private readonly environment: EnvironmentProperties
   ) {
     this.logger.info('Application :: Booting')

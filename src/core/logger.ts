@@ -7,8 +7,9 @@ import {
 } from 'pino'
 import { environment } from '../config/environment'
 import { EnvironmentProperties } from '../interfaces/environment-properties.interface'
+import { ApplicationLogger } from '../interfaces/application-logger.interface'
 
-export class CustomLogger {
+export class CustomLogger implements ApplicationLogger {
   private readonly logger: Logger
 
   constructor(private readonly environment: EnvironmentProperties) {
