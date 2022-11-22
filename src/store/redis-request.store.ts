@@ -15,7 +15,6 @@ export class RedisRequestStore implements RequestStore {
     })
 
     this.client.on('error', (error) => {
-      console.log(error)
       throw new Error(error)
     })
   }

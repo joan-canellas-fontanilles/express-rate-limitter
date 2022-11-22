@@ -29,7 +29,6 @@ export class AuthenticatedGuardMiddleware implements Middleware {
 
   private getTokenFromHeader(req: Request): string | undefined {
     const authHeader = req.headers.authorization
-    console.log(authHeader)
     return authHeader?.split(' ')[1]
   }
 }
