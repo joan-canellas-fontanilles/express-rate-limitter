@@ -38,7 +38,7 @@ export class Environment implements EnvironmentProperties {
     dotenv.config({ path: path.join(__dirname, '../../.env') })
     const config = this.getEnvironmentConfig()
 
-    this.url = config.URL.replace('{port}', String(config.PORT))
+    this.url = `http://${config.URL}:${config.PORT}`
     this.port = config.PORT
     this.apiPrefix = config.API_PREFIX
     this.logDir = path.join(__dirname, '../..', config.LOG_DIR, 'log.log')
@@ -55,7 +55,7 @@ export class Environment implements EnvironmentProperties {
   private getEnvironmentConfig(): EnvironmentValues {
     return cleanEnv(process.env, {
       PORT: num({ default: 4040 }),
-      URL: host({ default: 'http://localhost:{port}' }),
+      URL: host({ default: 'localhost' }),
       API_PREFIX: str({ default: 'api' }),
       IS_CORS_ENABLED: bool({ default: true }),
       REDIS_HTTP_PORT: num({ default: 6379 }),
