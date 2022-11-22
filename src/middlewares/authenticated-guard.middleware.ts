@@ -5,25 +5,31 @@ import { ForbiddenHttpException } from '../exceptions/forbidden-http.exception'
 import { Middleware } from '../interfaces/middleware.interface'
 
 export class AuthenticatedGuardMiddleware implements Middleware {
-  constructor(public authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  public handle(req: Request, res: Response, next: NextFunction): void {
+  public async handle(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const token = this.getTokenFromHeader(req)
 
     if (token === undefined) {
       return next(new UnauthorizedHttpException())
     }
-    if (!this.authService.validate(token)) {
+
+    try {
+      const payload = await this.authService.verify(token)
+      res.locals.user = payload.uuid
+      next()
+    } catch (e) {
       return next(new ForbiddenHttpException())
     }
-
-    res.locals.user = token
-
-    next()
   }
 
   private getTokenFromHeader(req: Request): string | undefined {
     const authHeader = req.headers.authorization
+    console.log(authHeader)
     return authHeader?.split(' ')[1]
   }
 }

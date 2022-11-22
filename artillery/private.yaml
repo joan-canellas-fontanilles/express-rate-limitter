@@ -8,4 +8,4 @@ scenarios:
       - get:
           url: "/api/private"
           headers:
-            authorization: "Bearer {{ $processEnvironment.TOKEN }}"
+            authorization: "Bearer {{ $processEnvironment.JWT }}"

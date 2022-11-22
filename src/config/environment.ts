@@ -14,6 +14,7 @@ type EnvironmentValues = Readonly<
     REDIS_HTTP_HOST: string
     REDIS_HTTP_PORT: number
     JWT: string
+    JWT_SECRET: string
     IP_RATE_LIMIT: number
     TOKEN_RATE_LIMIT: number
   } & CleanedEnvAccessors
@@ -28,6 +29,7 @@ export class Environment implements EnvironmentProperties {
   public readonly redisHttpPort: number
   public readonly redisHttpHost: string
   public readonly logLevel: string
+  public readonly jwtSecret: string
   public readonly jwt: string
   public readonly ipRateLimit: number
   public readonly tokenRateLimit: number
@@ -44,6 +46,7 @@ export class Environment implements EnvironmentProperties {
     this.redisHttpPort = config.REDIS_HTTP_PORT
     this.redisHttpHost = config.REDIS_HTTP_HOST
     this.logLevel = config.LOG_LEVEL
+    this.jwtSecret = config.JWT_SECRET
     this.jwt = config.JWT
     this.ipRateLimit = config.IP_RATE_LIMIT
     this.tokenRateLimit = config.TOKEN_RATE_LIMIT
@@ -59,7 +62,8 @@ export class Environment implements EnvironmentProperties {
       REDIS_HTTP_HOST: host({ default: '127.0.0.1' }),
       LOG_DIR: str({ default: 'logs' }),
       LOG_LEVEL: str({ default: 'info' }),
-      JWT: str({}),
+      JWT_SECRET: str(),
+      JWT: str(),
       IP_RATE_LIMIT: num({ default: 100 }),
       TOKEN_RATE_LIMIT: num({ default: 200 }),
     })
