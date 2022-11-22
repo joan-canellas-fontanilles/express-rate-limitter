@@ -27,7 +27,7 @@ describe('Error handler', () => {
     controller = new ErrorHandler(mockLogger, exitHandler)
   })
 
-  it('Should return a handler response if it is an operational error', () => {
+  it('Should return a handled response if it is an operational error', () => {
     const error = new ForbiddenHttpException()
     controller.handleError(error, mockResponse as Response)
 
@@ -37,13 +37,13 @@ describe('Error handler', () => {
     expect(mockResponse.status).toBeCalledWith(403)
   })
 
-  it('Should return a handler response stop the server if it is not an operational error', () => {
+  it('Should return a handled response stop the server if it is not an operational error', () => {
     const error = new Error()
     controller.handleError(error, mockResponse as Response)
     expect(exitHandler.handleExit).toBeCalledWith(1)
   })
 
-  it('Should return a handler response if a response object is sent', () => {
+  it('Should return a handled response if a response object is sent', () => {
     const error = new Error()
     controller.handleError(error, mockResponse as Response)
     expect(mockResponse.json).toBeCalledWith({

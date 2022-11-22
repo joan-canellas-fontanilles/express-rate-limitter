@@ -3,7 +3,7 @@ import { RateLimiterMiddleware } from './rate-limiter.middleware'
 import { RequestStore } from '../interfaces/request-store.interface'
 import { TooManyRequestHttpException } from '../exceptions/too-many-request-http.exception'
 
-describe('Not found controller', () => {
+describe('rate limiter middleware', () => {
   let mockRequest: Partial<Request>
   let mockResponse: Partial<Response>
   let nextFunction: NextFunction

@@ -3,7 +3,7 @@ import { AuthenticatedGuardMiddleware } from './authenticated-guard.middleware'
 import { AuthService } from '../core/auth.service'
 import { ForbiddenHttpException } from '../exceptions/forbidden-http.exception'
 
-describe('Not found controller', () => {
+describe('authenticated guard middleware', () => {
   let mockRequest: Partial<Request>
   let mockResponse: Partial<Response>
   let nextFunction: NextFunction = jest.fn()

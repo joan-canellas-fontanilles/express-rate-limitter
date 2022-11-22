@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { RequestIpMiddleware } from './request-ip.middleware'
 
-describe('Not found controller', () => {
+describe('request ip middleware', () => {
   let mockRequest: Partial<Request>
   let mockResponse: Partial<Response>
   let nextFunction: NextFunction = jest.fn()

@@ -3,7 +3,7 @@ import { RequestStore } from '../interfaces/request-store.interface'
 import NodeCache from 'node-cache'
 
 export class RedisMemoryRequestStore implements RequestStore {
-  public readonly cache = new NodeCache({
+  private readonly cache = new NodeCache({
     stdTTL: 60 * 60,
     checkperiod: 60,
   })
