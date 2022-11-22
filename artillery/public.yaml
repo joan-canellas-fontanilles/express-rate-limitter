@@ -1,8 +1,8 @@
 config:
-target: "http://localhost:{{ $processEnvironment.PORT }}"
-phases:
-  - duration: 1
-    arrivalRate: 4000
+  target: "http://localhost:{{ $processEnvironment.PORT }}"
+  phases:
+    - duration: 1
+      arrivalRate: 4000
 scenarios:
   - flow:
       - get:

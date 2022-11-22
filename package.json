@@ -9,7 +9,12 @@
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:performance:private": "dotenv -- artillery run artillery/private.yaml",
-    "test:performance:public": "dotenv -- artillery run artillery/public.yaml"
+    "test:performance:public": "dotenv -- artillery run artillery/public.yaml",
+    "docker-compose:up": "docker compose -f docker/docker-compose.yaml --env-file .env up --detach",
+    "docker-compose:down": "docker compose -f docker/docker-compose.yaml down",
+    "docker:build": "docker build -f docker/express.dockerfile -t express-rate-limiter:local .",
+    "minikube:load": "minikube image load express-rate-limiter:local",
+    "k8s:apply": "kubectl apply -f docker/service.yaml"
   },
   "repository": {
     "type": "git",

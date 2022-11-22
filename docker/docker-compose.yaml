@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  express:
+    build:
+      context: ..
+      dockerfile: ./docker/express.dockerfile
+    env_file:
+      - ../.env
+    environment:
+      - PORT=8000
+      - REDIS_HTTP_PORT=6379
+      - REDIS_HTTP_HOST=redis-db
+    ports:
+      - "${PORT}:8000"
+  redis-db:
+    image: redis:7.0.5
+    ports:
+      - "${REDIS_HTTP_PORT}:6379"
