@@ -15,7 +15,7 @@ export class ExpressServer {
 
     this.server = application
       .listen(port, () => this.logger.info(`Server :: Running @ '${url}'`))
-      .on('error', (error) => this.logger.error('Error: ', error.message))
+      .on('error', (error) => this.logger.error(error, 'Server :: Error'))
   }
 
   public async shutdown(): Promise<void> {

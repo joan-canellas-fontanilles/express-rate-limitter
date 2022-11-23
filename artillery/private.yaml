@@ -1,7 +1,8 @@
 config:
   target: "http://localhost:{{ $processEnvironment.PORT }}"
   phases:
-    - duration: 10
+    - name: 10 seconds ramp up
+      duration: 10
       rampTo: 300
 scenarios:
   - flow:

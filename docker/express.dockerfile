@@ -11,4 +11,4 @@ COPY package*.json ./
 RUN npm install
 COPY --from=builder /dist /dist
 EXPOSE 8000
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:server"]

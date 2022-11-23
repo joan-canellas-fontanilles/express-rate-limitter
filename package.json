@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx tsc",
     "prestart": "npm run build",
-    "start": "node dist/index.js",
+    "start": "npm run start:server",
+    "start:server": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "test": "jest ",
     "test:coverage": "jest --coverage",
@@ -29,7 +30,6 @@
   },
   "homepage": "https://github.com/joan-canellas-fontanilles/express-rate-limitter#readme",
   "dependencies": {
-    "@types/supertest": "^2.0.12",
     "compression": "^1.7.4",
     "concurrently": "^7.5.0",
     "cors": "^2.8.5",
@@ -50,6 +50,7 @@
     "@types/jest": "^29.2.3",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.11.9",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
     "eslint": "^8.27.0",
